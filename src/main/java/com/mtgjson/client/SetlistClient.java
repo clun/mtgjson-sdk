@@ -34,9 +34,21 @@ public class SetlistClient extends AbstractClient {
     }
     
     /**
+     * Access from Local file.
+     */
+    public List<Expansion> findAll(String filePath) {
+        File f = new File(filePath);
+        try {
+            return parseSetList(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Cannot Access File " + f.getAbsolutePath(), e);
+        }
+    }
+    
+    /**
      * The file is "small" and we can use core Jackson.
      */
-    public List<Expansion> parseSetList(InputStream in) {
+    private List<Expansion> parseSetList(InputStream in) {
         try {
             return JacksonMapper.getInstance().readValue(in, new TypeReference<JsonFile<List<Expansion>>>(){}).getData();
         } catch (Exception e) {
@@ -46,15 +58,6 @@ public class SetlistClient extends AbstractClient {
         }
     }
     
-    /**
-     * Access from Local file.
-     */
-    public List<Expansion> parseSetList(File f) {
-        try {
-            return parseSetList(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException("Cannot Access File " + f.getAbsolutePath(), e);
-        }
-    }
+    
     
 }

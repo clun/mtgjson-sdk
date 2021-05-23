@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import com.mtgjson.MtgJsonClient;
+import com.mtgjson.client.AllIdentifiersClient;
 import com.mtgjson.domain.Card;
 import com.mtgjson.domain.CardPrice;
 import com.mtgjson.domain.Expansion;
-import com.mtgjson.parser.MtgJsonAllPricesParser;
 
 /**
  * Unit test for simple App.
@@ -49,7 +49,7 @@ public class MtgJsonTest {
     
     @Test
     public void parseAllPrice() {
-        String fileName = "/tmp/allPrices_2021_05_21.json";
+        String fileName = "/Users/cedricklunven/Downloads/allPrices_2021_05_21.json";
         
         // Download the file first
         File allPriceFiles = new File(fileName);
@@ -57,15 +57,44 @@ public class MtgJsonTest {
             MtgJsonClient.allPrices().downloadJson(fileName);
         }
         
-        try {
-            new MtgJsonAllPricesParser().parse(allPriceFiles, new Consumer<CardPrice>() {
-                public void accept(CardPrice cardPrice) {
-                    System.out.println("Processing card : " + cardPrice.getCardId());
-                } 
-            });
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+        MtgJsonClient.allPrices().parse(fileName, new Consumer<CardPrice>() {
+          public void accept(CardPrice cardPrice) {
+            System.out.println("Processing card : " + cardPrice.getCardId());
+          } 
+        });
+    }
+    
+    @Test
+    public void parseAllIdentifiers() {
+        AllIdentifiersClient allIdentifiers = MtgJsonClient.allIdentifiers();
+        String fileName = "/Users/cedricklunven/Downloads/allIdentifiers_2021_05_22.json";
+        
+        // Download the file first
+        File f = new File(fileName);
+        if (!f.exists()) allIdentifiers.downloadJson(fileName);
+        
+        allIdentifiers.parse(fileName, new Consumer<Card>() {
+          public void accept(Card c) {
+            System.out.println("Processing card : " + c.getName());
+          } 
+        });
+    }
+    
+    public void parseAllPrintings() {
+        MtgJsonClient.allPrintings().downloadJson("/tmp/allPrintings.json");
+        MtgJsonClient.allPrintings().downloadBZ2("");
+        MtgJsonClient.allPrintings().downloadGZ("");
+        MtgJsonClient.allPrintings().downloadXZ("");
+        MtgJsonClient.allPrintings().downloadZip("");
+        MtgJsonClient.allPrintings().downloadAll("");
+        
+        
+        MtgJsonClient.allPrintings().getChecksum();
+        MtgJsonClient.allPrintings().getChecksumBZ2();
+        MtgJsonClient.allPrintings().getChecksumGZ();
+        MtgJsonClient.allPrintings().getChecksumXZ();
+        MtgJsonClient.allPrintings().getChecksumZIP();
+        
     }
     
 }
