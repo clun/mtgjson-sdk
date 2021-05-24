@@ -12,9 +12,6 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -29,9 +26,6 @@ import com.mtgjson.domain.CardRuling;
  * @author Cedrick LUNVEN (@clunven)
  */
 public class AllIdentifiersClient extends AbstractClient implements JsonStreamingParser<Card> {
-
-    /** Logger for the class. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AllIdentifiersClient.class);
     
     /** {@inheritDoc} */
     protected String getFileName() {
@@ -67,7 +61,6 @@ public class AllIdentifiersClient extends AbstractClient implements JsonStreamin
             jsonParser.nextToken(); // Begin Id
             while(!jsonParser.isClosed()) {
                 Card card = new Card();
-                LOGGER.info("New Card -> {}",jsonParser.getCurrentName());
                 // Enter the cards
                 jsonParser.nextToken();
                 jsonParser.nextToken();
@@ -249,7 +242,7 @@ public class AllIdentifiersClient extends AbstractClient implements JsonStreamin
     
     private String readValueString(JsonParser jsonParser) throws IOException {
         jsonParser.nextToken();
-        LOGGER.debug(" + {} = {}",jsonParser.getCurrentName(), jsonParser.getText());
+        //System.out.println(" + {} = {}",jsonParser.getCurrentName(), jsonParser.getText());
         String val = jsonParser.getText();
         jsonParser.nextToken();
         return val;
@@ -269,14 +262,14 @@ public class AllIdentifiersClient extends AbstractClient implements JsonStreamin
     
     private List<String> readList(JsonParser jsonParser) throws IOException {
         List<String> values = new ArrayList<>();
-        String listname = jsonParser.getCurrentName();
+        //String listname = jsonParser.getCurrentName();
         do {
             jsonParser.nextToken();
             values.add(jsonParser.getText());
         } while (jsonParser.currentToken() != JsonToken.END_ARRAY); 
         values.remove("[");
         values.remove("]");
-        LOGGER.debug(" + {} = {}", listname, jsonParser.getCurrentName());
+        //System.out.println(" + {} = {}", listname, jsonParser.getCurrentName());
         jsonParser.nextToken();
         return values;
     }
@@ -344,7 +337,7 @@ public class AllIdentifiersClient extends AbstractClient implements JsonStreamin
     private Map<String, String> readMap(JsonParser jsonParser) throws IOException {
        Map<String, String> returnedMap = new HashMap<>();
        jsonParser.nextToken();
-       String mapName = jsonParser.getCurrentName();
+       //String mapName = jsonParser.getCurrentName();
        jsonParser.nextToken();
        if (jsonParser.getCurrentToken() != JsonToken.END_OBJECT) {
            do {
@@ -355,7 +348,7 @@ public class AllIdentifiersClient extends AbstractClient implements JsonStreamin
            } while (jsonParser.currentToken() != JsonToken.END_OBJECT);
        }
        jsonParser.nextToken();
-       LOGGER.debug(" + {} = {}", mapName, returnedMap);
+       //System.out.println(" + {} = {}", mapName, returnedMap);
        return returnedMap;
     }
     

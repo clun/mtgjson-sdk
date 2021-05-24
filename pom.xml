@@ -16,20 +16,12 @@
 		<version.junit.jupiter>5.5.2</version.junit.jupiter>
 		<version.junit.platform>1.5.2</version.junit.platform>
 		<version.lombok>1.18.12</version.lombok>
-		<version.logback>1.2.3</version.logback>
-		<version.slf4j>1.7.30</version.slf4j>
 		<version.maven.plugin.compiler>3.8.1</version.maven.plugin.compiler>
 	</properties>
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${version.lombok}</version>
-		</dependency>
-
-		<!-- Jackson -->
+		<!-- Jackson JSON Parser -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -41,23 +33,13 @@
 			<version>${version.jackson}</version>
 		</dependency>
 
-		<!-- Logger -->
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${version.logback}</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${version.lombok}</version>
+			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${version.slf4j}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${version.slf4j}</version>
-		</dependency>
-
+		
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
