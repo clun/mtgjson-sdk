@@ -95,6 +95,7 @@ public class MtgJsonTest {
         MtgJsonClient.allPrintings().getChecksumXZ();
         MtgJsonClient.allPrintings().getChecksumZIP();
         
+        
     }
     
 }

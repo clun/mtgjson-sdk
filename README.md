@@ -43,20 +43,17 @@ List<Expansion> setList2 = MtgJsonClient.setList().findAll("/tmp/SetList.jsoon")
 
 ✅ **[Working with a single Set](https://mtgjson.com/downloads/all-files/#setlist)**
 
-Each set got a dedicated file `<set_code>.json`.
-
-The file is pretty small (<1MB) as such the client use an Http request to read the data. There is no need to download `SetList.json` locally
+Each set got a dedicated file `<set_code>.json`. Files are pretty small (<1MB) as such the client use an Http request to read the data.
 
 ```java
+Optional<Expansion> expansion10e = MtgJsonClient.set("10e").find();
+Optional<Expansion> expansion11e = MtgJsonClient.set("11e").find();
+
 // use htpp
-List<Expansion> setList = MtgJsonClient.setList().findAll();
-
-// use local file
-MtgJsonClient.setList().downloadJson("/tmp/SetList.jsoon");
-List<Expansion> setList2 = MtgJsonClient.setList().findAll("/tmp/SetList.jsoon");
+expansion10e.get().getCards()
+            .stream().map(Card::getName)
+            .forEach(System.out::println);
 ```
-
-
 
 ✅ **[All Prices](https://mtgjson.com/downloads/all-files/#allprices)**
 
@@ -95,7 +92,6 @@ allPrices.parse("/tmp/allPrices.json", new Consumer<CardPrice>() {
   } 
 });
 ```
-
 
 ✅ **[All Identifiers](https://mtgjson.com/downloads/all-files/#allidentifiers)**
 
@@ -159,5 +155,6 @@ String sha256gz  = MtgJsonClient.allPrintings().getChecksumGZ();
 String sha256xz  = MtgJsonClient.allPrintings().getChecksumXZ();
 String sha256zip = MtgJsonClient.allPrintings().getChecksumZIP();
 
+//todo
 ```
 
